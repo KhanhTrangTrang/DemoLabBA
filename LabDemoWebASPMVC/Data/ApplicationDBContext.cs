@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace LabDemoWebASPMVC.Data
 {
+    /// <summary>
+    ///   Data context dùng thể thao tác với database
+    /// </summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// khanhnn 5/24/2021 created
+    /// </Modified>
     public class ApplicationDBContext : DbContext
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)

@@ -13,9 +13,21 @@ using System.Threading.Tasks;
 
 namespace LabDemoWebASPMVC.Controllers
 {
+    /// <summary>
+    ///   <br />
+    /// </summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// khanhnn 5/24/2021 created
+    /// </Modified>
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        /// <summary>The configuration</summary>
+        /// Controler hiển thị mà hình login, thực hiện login, logout
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         private readonly IConfiguration _configuration;
 
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
@@ -24,6 +36,14 @@ namespace LabDemoWebASPMVC.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>Indexes this instance.</summary>
+        /// <returns>
+        ///   Hiển thị màn hình login.
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult Index()
         {
             if (TempData["status"] != null)
@@ -34,6 +54,15 @@ namespace LabDemoWebASPMVC.Controllers
             return View();
         }
 
+        /// <summary>Logins the specified admin.</summary>
+        /// <param name="admin">The admin.</param>
+        /// <returns>
+        ///   Thực hiện login và chuyển đến màn hình quản lí nhân viên
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(Admin admin)
@@ -57,6 +86,14 @@ namespace LabDemoWebASPMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>Logouts this instance.</summary>
+        /// <returns>
+        ///   Thực hiện logout
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync();

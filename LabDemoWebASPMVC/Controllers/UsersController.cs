@@ -9,22 +9,46 @@ using System.Threading.Tasks;
 
 namespace LabDemoWebASPMVC.Controllers
 {
+    /// <summary>
+    ///   Controller hiển thị mà hình quản lí nhân viên, hiển thị thông tin, thêm, sửa xóa nhân viên.
+    /// </summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// khanhnn 5/24/2021 created
+    /// </Modified>
     [Authorize]
     public class UsersController : Controller
     {
 
+        /// <summary>Dung để thao tác với database</summary>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         private readonly ApplicationDBContext _db;
         public UsersController(ApplicationDBContext db)
         {
             _db = db;
         }
 
+        /// <summary>Hiển thị tất cả các user có trong database</summary>
+        /// <param name="sortOrder"></param>
+        /// <param name="currentFilter"></param>
+        /// <param name="searchString">Tìm kiếm nhân viên</param>
+        /// <param name="pageNumber">Chỉ số trang</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public async Task<IActionResult> Index(string sortOrder,
-    string currentFilter,
-    string searchString,
-    int? pageNumber)
+                                               string currentFilter,
+                                               string searchString,
+                                               int? pageNumber)
         {
-            
+
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
@@ -51,6 +75,14 @@ namespace LabDemoWebASPMVC.Controllers
         }
 
         // Get
+        /// <summary>Chọn nút thêm nhân viên</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult AddUser()
         {
             TempData["Case"] = "add";
@@ -58,6 +90,15 @@ namespace LabDemoWebASPMVC.Controllers
         }
 
         // Get
+        /// <summary>Chọn nút sửa thông tin nhân viên</summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult EditUser(Users user)
         {
             IEnumerable<Users> lst = _db.Users.Where(x => x.Email.CompareTo(user.Email) == 0 && x.Id != user.Id).ToList();
@@ -73,6 +114,15 @@ namespace LabDemoWebASPMVC.Controllers
             TempData["EditTel"] = user.Tel;
             return RedirectToAction("Confirm", new { Id = user.Id });
         }
+        /// <summary>Chọn nút xóa nhân viên</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult DeleteUser(int id)
         {
             TempData["Case"] = "delete";
@@ -80,6 +130,15 @@ namespace LabDemoWebASPMVC.Controllers
         }
 
         // Post
+        /// <summary>Gửi đi hành động thêm nhân viên</summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddUserPost(Users user)
@@ -93,7 +152,7 @@ namespace LabDemoWebASPMVC.Controllers
                 TempData["AddTel"] = user.Tel;
                 return RedirectToAction("AddUser");
             }
-            try 
+            try
             {
                 var result = _db.Users.Add(user);
                 _db.SaveChanges();
@@ -107,10 +166,19 @@ namespace LabDemoWebASPMVC.Controllers
         }
 
         // Post
+        /// <summary>Gửi đi hành động sửa nhân viên</summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditUserPost(Users user)
-        {   
+        {
             try
             {
                 var result = _db.Users.Update(user);
@@ -124,6 +192,15 @@ namespace LabDemoWebASPMVC.Controllers
             return RedirectToAction("Result");
         }
 
+        /// <summary>Gửi đi hành động xóa nhân viên</summary>
+        /// <param name="user">The user.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteUserPost(Users user)
@@ -142,6 +219,15 @@ namespace LabDemoWebASPMVC.Controllers
         }
 
         // Get
+        /// <summary>Hiển thị thông tin nhân viên</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult DetailUser(int id)
         {
             if (TempData["edit"] != null)
@@ -153,6 +239,14 @@ namespace LabDemoWebASPMVC.Controllers
             return View(result);
         }
 
+        /// <summary>Xác nhận kết quả cho việc thêm, sửa xóa nhân viên</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult Result()
         {
             if (TempData["Result"] != null)
@@ -163,10 +257,20 @@ namespace LabDemoWebASPMVC.Controllers
             return View();
         }
 
+        /// <summary>Confirms the specified identifier.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   Xác nhận thông tin thêm, sửa, xóa, cảnh báo lỗi khi thông tin không hợp lệ
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult Confirm(int id)
         {
             if (TempData["Case"] != null)
             {
+                // Lưu thông tin trường hợp sửa thông tin nhân viên không hợp lệ
                 if (TempData["Case"].ToString() == "add")
                 {
                     if (TempData["AddError"] != null)
@@ -210,10 +314,11 @@ namespace LabDemoWebASPMVC.Controllers
                 ViewBag.Case = TempData["Case"].ToString();
                 TempData.Remove("Case");
             }
-            
+
             var result = _db.Users.SingleOrDefault(b => b.Id == id);
             if (result != null)
             {
+                // Lưu thông tin nhập vào trường hợp thông tin user thêm vào không hợp lệ
                 if (TempData["EditName"] != null)
                 {
                     result.Name = TempData["EditName"].ToString();
@@ -235,11 +340,20 @@ namespace LabDemoWebASPMVC.Controllers
                 return View(new Users());
         }
 
+        /// <summary>Quay trở lại màn hình hiển thị thông tin nhân viên</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        /// <Modified>
+        /// Name Date Comments
+        /// khanhnn 5/24/2021 created
+        /// </Modified>
         public IActionResult Back(int id)
         {
             return RedirectToAction("DetailUser", new { Id = id });
         }
 
-        
+
     }
 }

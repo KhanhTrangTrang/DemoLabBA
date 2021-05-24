@@ -2,6 +2,13 @@
 
 namespace LabDemoWebASPMVC.Models
 {
+    /// <summary>
+    ///   Model dùng để quản lí thông tin nhân viên trong ứng dụng
+    /// </summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// khanhnn 5/24/2021 created
+    /// </Modified>
     public class Users
     {
         [Key]

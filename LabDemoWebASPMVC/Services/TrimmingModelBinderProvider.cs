@@ -6,6 +6,13 @@ using System;
 
 namespace LabDemoWebASPMVC.Services
 {
+    /// <summary>
+    ///   Service dùng thể triming các khoảng trống cho các input trong ứng dụng
+    /// </summary>
+    /// <Modified>
+    /// Name Date Comments
+    /// khanhnn 5/24/2021 created
+    /// </Modified>
     public class TrimmingModelBinderProvider
     : IModelBinderProvider
     {
